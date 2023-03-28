@@ -17,3 +17,13 @@ class HelloActor extends Actor {
     helloActor ! "hello"
     helloActor ! "buenos dias"
 ```
+## On case object vs case class
+``` scala
+case object Increment extends Command
+final case class GetValue(replyTo: ActorRef[Value]) extends Command
+```
+* When we look at those which implement the `Command` trait, some are `object` and some are `class`
+* In the above example, `Increment` is `object` whilst `GetValue` is `class`
+* For `object` there is only one instance of it, while for `class` there can be many instances, and they differ based on the value of the arguments.
+* This makes sense because for `Increment`, all we need to know is that it will increase the value by one, but for `GetValue` it depends on which ActorRef we should send the value to.
+* 

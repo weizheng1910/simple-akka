@@ -14,7 +14,7 @@ object Main {
         log.info("{} is saying Hello", context.self.toString())
         println("hello back at you")
       }
-      case _       => println("huh?")
+      case _ => println("huh?")
     }
   }
 
@@ -28,8 +28,9 @@ object Main {
         // Upon creation of the RootActor object, create the Counter actor
         val counter = context.spawn(Counter(), "Counter")
 
-        // Returns the behavior object. This object listens for the spawn command, which upon receiving the command,
-        // performs some logic
+        /* Returns the behavior object. This object listens for the spawn command, which upon receiving the command,
+        performs some logic
+        */
         Behaviors.receiveMessage { message =>
           counter ! Counter.Increment
           Behaviors.same
@@ -53,13 +54,20 @@ object Main {
           case Increment =>
             val newValue = n + 1
             context.log.info("Incremented counter to [{}]", newValue)
-
             counter(newValue)
+
           case GetValue(replyTo) =>
             replyTo ! Value(n)
             Behaviors.same
         }
       }
+  }
+
+  def split(arr: Array[Int]): Unit ={
+    var arr = Array(6,5,4,3,2,1)
+    var arrs = arr.splitAt(arr.length/2)
+    var arr1 = arrs._1
+    var arr2 = arrs._2
   }
 
   def main(args: Array[String]): Unit = {
@@ -68,6 +76,8 @@ object Main {
       ActorSystem(RootActor(), "hello")
 
     system ! RootActor.Spawn()
+
+
 
   }
 }
